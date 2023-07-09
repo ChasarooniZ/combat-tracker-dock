@@ -376,10 +376,12 @@ Hooks.on("renderTokenConfig", (app, html, data) => {
     let img = app.token.getFlag("combat-tracker-dock", "img") || "";
     let newHtml = `<div class="form-group">
       <label>${game.i18n.localize("combat-tracker-dock.tokenconfig.name")}</label>
-      <button type="button" class="file-picker" data-type="imagevideo" data-target="flags.combat-tracker-dock.img" title="Browse Files" tabindex="-1">
+      <div class="form-fields">
+        <button type="button" class="file-picker" data-type="imagevideo" data-target="flags.combat-tracker-dock.img" title="Browse Files" tabindex="-1">
             <i class="fas fa-file-import fa-fw"></i>
         </button>
-      <input class="image" type="text" name="flags.combat-tracker-dock.img" placeholder="path/image.png" value="${img}">
+        <input class="image" type="text" name="flags.combat-tracker-dock.img" placeholder="path/image.png" value="${img}">
+      </div>
     </div> `;
     html.find('input[name="texture.src"]').closest(".form-group").after(newHtml);
     html.find('input[name="flags.combat-tracker-dock.img"]').value = img;

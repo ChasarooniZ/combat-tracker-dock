@@ -195,7 +195,7 @@
                 "name": "Next Turn"
             }
         },
-        "tokenConfig": {
+        "tokenconfig": {
             "name": "Carousel Image"
         }
     }
