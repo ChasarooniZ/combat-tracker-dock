@@ -374,16 +374,25 @@ export class CombatantPortrait {
 Hooks.on("renderTokenConfig", (app, html, data) => {
     if (game.settings.get(MODULE_ID, "portraitImage") !== "carousel") return;
     let img = app.token.getFlag("combat-tracker-dock", "img") || "";
-    let newHtml = `<div class="form-group">
-      <label>${game.i18n.localize("combat-tracker-dock.tokenconfig.name")}</label>
-      <div class="form-fields">
-        <button type="button" class="file-picker" data-type="imagevideo" data-target="flags.combat-tracker-dock.img" title="Browse Files" tabindex="-1">
-            <i class="fas fa-file-import fa-fw"></i>
-        </button>
-        <input class="image" type="text" name="flags.combat-tracker-dock.img" placeholder="path/image.png" value="${img}">
-      </div>
-    </div> `;
-    html.find('input[name="texture.src"]').closest(".form-group").after(newHtml);
+    let btn = $('<button>')
+        .addClass('file-picker')
+        .attr('type', 'button')
+        .attr('data-type', "imagevideo")
+        .attr('data-target', "flags.combat-tracker-dock.img")
+        .attr('title', game.i18n.localize("combat-tracker-dock.tokenconfig.name"))
+        .attr('tabindex', "-1")
+        .html('<i class="fas fa-file-import fa-fw"></i>')
+        .click(function (event) {
+            const fp = new FilePicker({
+                type: "imagevideo",
+                current: $(event.currentTarget).prev().val(),
+                callback: path => {
+                    $(event.currentTarget).prev().val(path);
+                }
+            });
+            return fp.browse();
+        });
+    html.find('input[name="texture.src"]').closest(".form-group").after(btn);
     html.find('input[name="flags.combat-tracker-dock.img"]').value = img;
     app.setPosition({ height: "auto" });
   });
