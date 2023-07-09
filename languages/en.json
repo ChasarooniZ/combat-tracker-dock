@@ -129,10 +129,11 @@
             },
             "portraitImage": {
                 "name": "Portrait Image",
-                "hint": "Whether to use the Actor or Token image as the portrait.",
+                "hint": "Whether to use the Actor, Token, or Carousel image as the portrait.",
                 "choices": {
                     "actor": "Actor",
-                    "token": "Token"
+                    "token": "Token",
+                    "carousel": "Carousel"
                 }
             },
             "portraitImageBackground": {
@@ -193,6 +194,9 @@
             "combatNext": {
                 "name": "Next Turn"
             }
+        },
+        "tokenConfig": {
+            "name": "Carousel Image"
         }
     }
 }

@@ -20,8 +20,16 @@ export class CombatantPortrait {
     }
 
     get img() {
-        const useActor = game.settings.get(MODULE_ID, "portraitImage") === "actor";
-        return (useActor ? this.combatant.actor?.img : this.combatant.img) ?? this.combatant.img;
+        switch (game.settings.get(MODULE_ID, "portraitImage")) {
+            case "actor":
+                return this.combatant.actor?.img
+            case "token":
+                return this.combatant.img
+            case "carousel":
+                return this.token.flag?.combat-tracker-dock?.img || this.combatant.actor?.img;
+            default:
+                return this.combatant.img
+        }
     }
 
     get name() {
@@ -362,5 +370,20 @@ export class CombatantPortrait {
         this.element?.remove();
     }
 }
+
+Hooks.on("renderTokenConfig", (app, html, data) => {
+    if (game.settings.get(MODULE_ID, "portraitImage") !== "carousel") return;
+    let img = app.token.getFlag("combat-tracker-dock", "img") || "";
+    let newHtml = `<div class="form-group">
+      <label>${game.i18n.localize("combat-tracker-dock.tokenconfig.name")}</label>
+      <button type="button" class="file-picker" data-type="imagevideo" data-target="flags.combat-tracker-dock.img" title="Browse Files" tabindex="-1">
+            <i class="fas fa-file-import fa-fw"></i>
+        </button>
+      <input class="image" type="text" name="flags.combat-tracker-dock.img" placeholder="path/image.png" value="${img}">
+    </div> `;
+    html.find('input[name="texture.src"]').closest(".form-group").after(newHtml);
+    html.find('input[name="flags.combat-tracker-dock.img"]').value = img;
+    app.setPosition({ height: "auto" });
+  });
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
