@@ -267,6 +267,7 @@ export function registerSettings() {
         choices: {
             actor: "combat-tracker-dock.settings.portraitImage.choices.actor",
             token: "combat-tracker-dock.settings.portraitImage.choices.token",
+            carousel: "combat-tracker-dock.settings.portraitImage.choices.carousel"
         },
         default: "actor",
         onChange: () => ui.combatDock?.refresh(),
