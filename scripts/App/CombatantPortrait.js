@@ -26,8 +26,16 @@ export class CombatantPortrait {
     }
 
     get img() {
-        const useActor = game.settings.get(MODULE_ID, "portraitImage") === "actor";
-        return (useActor ? this.combatant.actor?.img : this.combatant.img) ?? this.combatant.img;
+        switch(game.settings.get(MODULE_ID, "portraitImage")) {
+            case "actor":
+                return this.combatant.actor?.img ?? this.combatant.img;
+            case "token":
+                return this.combatant.img;
+            case "custom":
+                return this.combatant?.token?.flags?.[MODULE_ID]?.dockImage ?? this.combatant.img
+            default:
+                return this.combatant.actor?.img ?? this.combatant.img;
+        }
     }
 
     get name() {
